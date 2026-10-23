@@ -53,3 +53,14 @@ domain/          model, service (reglas), port (contratos de salida), exception
 infrastructure/  persistence (entity, repository R2DBC), mapper, adapter, config
 ```
 
+## Uso de IA
+
+En esta prueba se uso GitHub Copilot como herramienta de apoyo para agilizar el proceso de codificacion.
+Se empleo en:
+
+- Codificacion: generacion de codigo repetitivo y sugerencias durante el desarrollo.
+- Infraestructura: configuracion del `Dockerfile` y del `docker-compose.yml` (aplicacion y base de datos).
+- Pruebas: apoyo en la escritura de pruebas unitarias.
+- Documentacion: redaccion y revision de este README.
+
+Posteriormente todo lo anterior fue revisado manualmente para verificar funcionamiento y estructuracion de implementacion.
