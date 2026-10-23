@@ -12,6 +12,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 
+import com.ias_software.test.domain.model.RejectionReason;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -109,6 +110,18 @@ class UsageRequestServiceTest {
                 .customerId(customer)
                 .amount(new BigDecimal(amount))
                 .build();
+    }
+
+    @Test
+    void unknownPreApprovedIsRejectedAndStored() {
+        when(usageRequestRepository.findByReference("REF-003")).thenReturn(Mono.empty());
+        when(preApprovedRepository.findById("PRA-9999")).thenReturn(Mono.empty());
+        simuleSave();
+
+        StepVerifier.create(service.process(request("REF-003", "PRA-9999", "USR-10", "1000")))
+                .assertNext(result -> assertThat(result.getRequest().getReasonCode())
+                        .isEqualTo(RejectionReason.PRE_APPROVED_NOT_FOUND.name()))
+                .verifyComplete();
     }
 
     private PreApproved activePreApproved(String available) {
